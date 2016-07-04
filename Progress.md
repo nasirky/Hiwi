@@ -1,5 +1,6 @@
 ### Progress
-- [ ] Nithish's Files
+- [ ] Nithish's Code Analysis
+- [ ] Nithish's Reports
 - [ ] EXE Research Paper
 - [ ] Coreutils  (Facing some issues)
 - [x] Examples (Regex, islower and maze)
