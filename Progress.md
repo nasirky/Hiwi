@@ -1,5 +1,6 @@
 ### Progress
-- [ ] Nithish's Code Analysis
+- [ ] Nithish's Code Analysis -> Related Links
+- [x] Nithish's Code Analysis
 - [ ] Nithish's Reports
 - [ ] EXE Research Paper
 - [ ] Coreutils  (Facing some issues)
