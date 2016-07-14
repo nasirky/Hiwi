@@ -1,9 +1,10 @@
 ### Progress
-- [ ] Nithish's Code Analysis -> Related Links
-- [x] Nithish's Code Analysis
-- [ ] Nithish's Reports
-- [ ] EXE Research Paper
 - [ ] Coreutils  (Facing some issues)
+- [x] Analysis of uclibc vs klee-uclibc
+- [x] Nithish's Code Analysis -> Related Links
+- [x] Nithish's Code Analysis
+- [x] Nithish's Reports
+- [x] EXE Research Paper
 - [x] Examples (Regex, islower and maze)
 - [x] Linux Installation
 - [x] KLEE Installation
