@@ -1,5 +1,5 @@
 ### Progress
-- [ ] Coreutils  (Facing some issues)
+- [x] Coreutils
 - [x] Analysis of uclibc vs klee-uclibc
 - [x] Nithish's Code Analysis -> Related Links
 - [x] Nithish's Code Analysis
