@@ -1,4 +1,9 @@
 ### Progress
+- [ ] KLOVER Research Papers
+- [ ] Get a list of corresponding libC++ functions
+- [x] Get an abstract algorithm for how POSIX functions are working in KLEE + Example (fopen)
+- [x] List of All POSIX Funtions (and non POSIX) as well that also inside KLEE (in runtime/libc or runtime/POSIX/)
+- [x] List of All POSIX Functions in libC
 - [x] Coreutils
 - [x] Analysis of uclibc vs klee-uclibc
 - [x] Nithish's Code Analysis -> Related Links
