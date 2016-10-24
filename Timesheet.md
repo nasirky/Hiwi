@@ -1,3 +1,5 @@
+**17-23 October**
+
 1. **Eclipse (Debugging)**:     Around 3 hours
 2. **GDB (Getting Started, Debuggin)**:   Around 3 hours
 
