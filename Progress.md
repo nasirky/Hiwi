@@ -1,17 +1,5 @@
 ### Progress
-- [ ] KLOVER Research Papers
-- [ ] Get a list of corresponding libC++ functions
-- [x] Get an abstract algorithm for how POSIX functions are working in KLEE + Example (fopen)
-- [x] List of All POSIX Funtions (and non POSIX) as well that also inside KLEE (in runtime/libc or runtime/POSIX/)
-- [x] List of All POSIX Functions in libC
-- [x] Coreutils
-- [x] Analysis of uclibc vs klee-uclibc
-- [x] Nithish's Code Analysis -> Related Links
-- [x] Nithish's Code Analysis
-- [x] Nithish's Reports
-- [x] EXE Research Paper
-- [x] Examples (Regex, islower and maze)
-- [x] Linux Installation
-- [x] KLEE Installation
-- [x] King's Research Paper
-- [x] KLEE's Research Paper
+- [ ] Make changes to implement cout for klee
+- [ ] Figuring out the stage at which cout makes the call to C functions (and which C function)
+- [ ] Figuring out the call heirarchy for cout
+- [x] Figuring out changes between uclibc and klee-uclibc for puts()
