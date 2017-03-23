@@ -1,0 +1,345 @@
+Breakpoint 1 at 0x400273: file test.c, line 3.
+Starting program: /home/nasir/Downloads/test/a.out 
+
+Breakpoint 1, main () at test.c:3
+3		puts("Hello");
+puts (s=0x419c60 "Hello") at libc/stdio/puts.c:13
+13		register FILE *stream = stdout; /* This helps bcc optimize. */
+17		__STDIO_AUTO_THREADLOCK(stream);
+24		if ((n = fputs_unlocked(s, stream)) != EOF) {
+__GI_fputs_unlocked (s=0x419c60 "Hello", stream=0x6200d8 <_stdio_streams+88>)
+    at libc/stdio/fputs.c:22
+22		size_t n = strlen(s);
+strlen () at libc/string/x86_64/strlen.S:26
+26		movq %rdi, %rcx		/* Duplicate source pointer. */
+27		andl $7, %ecx		/* mask alignment bits */
+28		movq %rdi, %rax		/* duplicate destination.  */
+29		jz 1f			/* aligned => start loop */
+40	1:	movq $0xfefefefefefefeff,%r8 /* Save magic.  */
+48		movq (%rax), %rcx	/* get double word (= 8 bytes) in question */
+49		addq $8,%rax		/* adjust pointer for next word */
+50		movq %r8, %rdx		/* magic value */
+51		addq %rcx, %rdx		/* add the magic value to the word.  We get
+54		jnc 3f			/* highest byte is NUL => return pointer */
+55		xorq %rcx, %rdx		/* (word+magic)^word */
+56		orq %r8, %rdx		/* set all non-carry bits */
+57		incq %rdx		/* add 1: if one carry bit was *not* set
+59		jnz 3f			/* found NUL => return pointer */
+107		subq $8,%rax		/* correct pointer increment.  */
+109		testb %cl, %cl		/* is first byte NUL? */
+110		jz 2f			/* yes => return */
+111		incq %rax		/* increment pointer */
+113		testb %ch, %ch		/* is second byte NUL? */
+114		jz 2f			/* yes => return */
+115		incq %rax		/* increment pointer */
+117		testl $0x00ff0000, %ecx /* is third byte NUL? */
+118		jz 2f			/* yes => return pointer */
+119		incq %rax		/* increment pointer */
+121		testl $0xff000000, %ecx /* is fourth byte NUL? */
+122		jz 2f			/* yes => return pointer */
+123		incq %rax		/* increment pointer */
+125		shrq $32, %rcx		/* look at other half.  */
+127		testb %cl, %cl		/* is first byte NUL? */
+128		jz 2f			/* yes => return */
+129		incq %rax		/* increment pointer */
+131		testb %ch, %ch		/* is second byte NUL? */
+132		jz 2f			/* yes => return */
+139		subq %rdi, %rax		/* compute difference to string start */
+strlen () at libc/string/x86_64/strlen.S:140
+140		ret
+__GI_fputs_unlocked (s=0x419c60 "Hello", stream=0x6200d8 <_stdio_streams+88>)
+    at libc/stdio/fputs.c:24
+24		return ((fwrite_unlocked(s, 1, n, stream) == n) ? n : EOF);
+__GI_fwrite_unlocked (ptr=0x419c60, size=1, nmemb=5, 
+    stream=0x6200d8 <_stdio_streams+88>) at libc/stdio/fwrite.c:21
+21		if ((__STDIO_STREAM_IS_NARROW_WRITING(stream)
+22			 || !__STDIO_STREAM_TRANS_TO_WRITE(stream, __FLAG_NARROW))
+__stdio_trans2w (stream=0x6200d8 <_stdio_streams+88>)
+    at libc/stdio/_trans2w.c:43
+43		if (stream->__modeflags & __FLAG_READONLY) {
+56		if (__STDIO_STREAM_IS_READING(stream)) {
+87		__STDIO_STREAM_SET_WRITING(stream);
+88		if (__STDIO_STREAM_IS_NARROW_FBF(stream)) {
+93		return 0;
+94	}
+__GI_fwrite_unlocked (ptr=0x419c60, size=1, nmemb=5, 
+    stream=0x6200d8 <_stdio_streams+88>) at libc/stdio/fwrite.c:23
+23			&& size && nmemb
+26			if (nmemb <= (SIZE_MAX / size)) {
+27				return __stdio_fwrite((const unsigned char *) ptr,
+__stdio_fwrite (buffer=0x419c60 "Hello", bytes=5, 
+    stream=0x6200d8 <_stdio_streams+88>) at libc/stdio/_fwrite.c:27
+27		if (!__STDIO_STREAM_IS_NBF(stream)) { /* FBF or LBF. */
+28			if (__STDIO_STREAM_IS_FAKE_VSNPRINTF(stream)) {
+40			if (bytes <= __STDIO_STREAM_BUFFER_WAVAIL(stream)) {
+41				memcpy(stream->__bufpos, buffer, bytes);
+memcpy () at libc/string/x86_64/memcpy.S:37
+37		cmpq	$32, %rdx
+38		movq	%rdx, %rcx
+40		movq	%rdi, %r10	/* Save value. */
+44		cld
+46		jbe	1f
+84	1:	rep; movsb
+89		movq	%r10, %rax		/* Set return value.  */
+memcpy () at libc/string/x86_64/memcpy.S:92
+92		ret
+__stdio_fwrite (buffer=0x419c60 "Hello", bytes=5, 
+    stream=0x6200d8 <_stdio_streams+88>) at libc/stdio/_fwrite.c:42
+42				stream->__bufpos += bytes;
+43				if (__STDIO_STREAM_IS_LBF(stream)
+44					&& memrchr(buffer, '\n', bytes)	/* Search backwards. */
+__GI_memrchr (s=0x419c60, c_in=10, n=5) at libc/string/generic/memrchr.c:42
+42	  c = (unsigned char) c_in;
+46	  for (char_ptr = (const unsigned char *) s + n;
+47	       n > 0 && ((unsigned long int) char_ptr
+48			 & (sizeof (longword) - 1)) != 0;
+47	       n > 0 && ((unsigned long int) char_ptr
+50	    if (*--char_ptr == c)
+49	       --n)
+46	  for (char_ptr = (const unsigned char *) s + n;
+47	       n > 0 && ((unsigned long int) char_ptr
+48			 & (sizeof (longword) - 1)) != 0;
+47	       n > 0 && ((unsigned long int) char_ptr
+50	    if (*--char_ptr == c)
+49	       --n)
+46	  for (char_ptr = (const unsigned char *) s + n;
+47	       n > 0 && ((unsigned long int) char_ptr
+48			 & (sizeof (longword) - 1)) != 0;
+47	       n > 0 && ((unsigned long int) char_ptr
+50	    if (*--char_ptr == c)
+49	       --n)
+46	  for (char_ptr = (const unsigned char *) s + n;
+47	       n > 0 && ((unsigned long int) char_ptr
+48			 & (sizeof (longword) - 1)) != 0;
+47	       n > 0 && ((unsigned long int) char_ptr
+50	    if (*--char_ptr == c)
+49	       --n)
+46	  for (char_ptr = (const unsigned char *) s + n;
+47	       n > 0 && ((unsigned long int) char_ptr
+48			 & (sizeof (longword) - 1)) != 0;
+47	       n > 0 && ((unsigned long int) char_ptr
+50	    if (*--char_ptr == c)
+49	       --n)
+46	  for (char_ptr = (const unsigned char *) s + n;
+56	  longword_ptr = (const unsigned long int *) char_ptr;
+74	  magic_bits = ((unsigned long int) 0x7efefefe << 32) | 0xfefefeff;
+78	  charmask = c | (c << 8);
+79	  charmask |= charmask << 16;
+81	  charmask |= charmask << 32;
+87	  while (n >= sizeof (longword))
+164	  char_ptr = (const unsigned char *) longword_ptr;
+166	  while (n-- > 0)
+172	  return 0;
+173	}
+__stdio_fwrite (buffer=0x419c60 "Hello", bytes=5, 
+    stream=0x6200d8 <_stdio_streams+88>) at libc/stdio/_fwrite.c:59
+59				return bytes;
+71	}
+__GI_fwrite_unlocked (ptr=0x419c60, size=1, nmemb=5, 
+    stream=0x6200d8 <_stdio_streams+88>) at libc/stdio/fwrite.c:36
+36	}
+__GI_fputs_unlocked (s=0x419c60 "Hello", stream=0x6200d8 <_stdio_streams+88>)
+    at libc/stdio/fputs.c:25
+25	}
+puts (
+    s=0xfefefefefefefeff <error: Cannot access memory at address 0xfefefefefefefeff>) at libc/stdio/puts.c:25
+25			++n;
+26			if (__fputc_unlocked('\n', stream) == EOF) {
+__GI___fputc_unlocked (c=10, stream=0x6200d8 <_stdio_streams+88>)
+    at libc/stdio/fputc.c:23
+23		if (__STDIO_STREAM_CAN_USE_BUFFER_ADD(stream)) {
+30		if (__STDIO_STREAM_IS_NARROW_WRITING(stream)
+33			if (__STDIO_STREAM_IS_FAKE_VSNPRINTF(stream)) {
+37			if (__STDIO_STREAM_BUFFER_SIZE(stream)) { /* Do we have a buffer? */
+39				if (!__STDIO_STREAM_BUFFER_WAVAIL(stream) /* Buffer full? */
+45				__STDIO_STREAM_BUFFER_ADD(stream, ((unsigned char) c));
+47				if (__STDIO_STREAM_IS_LBF(stream)) {
+48					if ((((unsigned char) c) == '\n')
+49						&& __STDIO_COMMIT_WRITE_BUFFER(stream)) {
+__stdio_wcommit (stream=0x6200d8 <_stdio_streams+88>)
+    at libc/stdio/_wcommit.c:23
+23		if ((bufsize = __STDIO_STREAM_BUFFER_WUSED(stream)) != 0) {
+24			stream->__bufpos = stream->__bufstart;
+25			__stdio_WRITE(stream, stream->__bufstart, bufsize);
+__stdio_WRITE (stream=0x6200d8 <_stdio_streams+88>, 
+    buf=0x6213a0 <_fixed_buffers+4096> "Hello\n", bufsize=6)
+    at libc/stdio/_WRITE.c:43
+43		todo = bufsize;
+45		while (todo != 0) {
+46			stodo = (todo <= SSIZE_MAX) ? todo : SSIZE_MAX;
+47			rv = __WRITE(stream, (char *) buf, stodo);
+__WRITE (stream=0x6200d8 <_stdio_streams+88>, 
+    buf=0x6213a0 <_fixed_buffers+4096> "Hello\n", bufsize=6)
+    at libc/stdio/_stdio.h:151
+151		__STDIO_STREAM_CUSTOM_WRITE_FUNC(stream, buf, bufsize);
+153		return write(stream->__filedes, buf, bufsize);
+__GI_write (fd=1, buf=0x6213a0 <_fixed_buffers+4096>, count=6)
+    at libc/sysdeps/linux/common/write.c:17
+17	CANCELLABLE_SYSCALL(ssize_t, write, (int fd, const void *buf, size_t count),
+__write_nocancel (fd=1, buf=0x6213a0 <_fixed_buffers+4096>, count=6)
+    at libc/sysdeps/linux/common/write.c:15
+15	_syscall3(ssize_t, __NC(write), int, fd, const void *, buf, size_t, count)
+__WRITE (stream=0x6200d8 <_stdio_streams+88>, 
+    buf=0x6213a0 <_fixed_buffers+4096> "Hello\n", bufsize=6)
+    at libc/stdio/_stdio.h:154
+154	}
+__stdio_WRITE (stream=0x6200d8 <_stdio_streams+88>, 
+    buf=0x6213a0 <_fixed_buffers+4096> "Hello\n", bufsize=6)
+    at libc/stdio/_WRITE.c:48
+48			if (rv >= 0) {
+55				todo -= rv;
+56				buf += rv;
+45		while (todo != 0) {
+116		return bufsize;
+117	}
+__stdio_wcommit (stream=0x6200d8 <_stdio_streams+88>)
+    at libc/stdio/_wcommit.c:28
+28		return __STDIO_STREAM_BUFFER_WUSED(stream);
+29	}
+__GI___fputc_unlocked (c=10, stream=0x6200d8 <_stdio_streams+88>)
+    at libc/stdio/fputc.c:63
+63			return (unsigned char) c;
+68	}
+puts (
+    s=0xfefefefefefefeff <error: Cannot access memory at address 0xfefefefefefefeff>) at libc/stdio/puts.c:31
+31		__STDIO_AUTO_THREADUNLOCK(stream);
+33		return n;
+34	}
+main () at test.c:4
+4		return 0;
+5	}
+__uClibc_main (main=0x40026f <main>, argc=1, argv=0x7fffffffdef8, 
+    app_init=0x400120 <_init>, app_fini=0x419c49 <_fini>, rtld_fini=0x0, 
+    stack_end=0x7fffffffdee8) at libc/misc/internals/__uClibc_main.c:470
+470		exit (result);
+__GI_exit (rv=0) at libc/stdlib/_atexit.c:341
+341		__UCLIBC_MUTEX_LOCK(__atexit_lock);
+__pthread_cleanup_push_defer (buffer=0x7fffffffdc50, 
+    routine=0x406c47 <__pthread_mutex_unlock>, arg=0x6202a0 <__atexit_lock>)
+    at libpthread/nptl/cleanup_defer_compat.c:29
+29	  struct pthread *self = THREAD_SELF;
+31	  buffer->__routine = routine;
+32	  buffer->__arg = arg;
+33	  buffer->__prev = THREAD_GETMEM (self, cleanup);
+35	  int cancelhandling = THREAD_GETMEM (self, cancelhandling);
+38	  if (__builtin_expect (cancelhandling & CANCELTYPE_BITMASK, 0))
+53	  buffer->__canceltype = (cancelhandling & CANCELTYPE_BITMASK
+55				  : PTHREAD_CANCEL_DEFERRED);
+53	  buffer->__canceltype = (cancelhandling & CANCELTYPE_BITMASK
+57	  THREAD_SETMEM (self, cleanup, buffer);
+58	}
+__pthread_mutex_lock (mutex=0x6202a0 <__atexit_lock>)
+    at libpthread/nptl/pthread_mutex_lock.c:54
+54	  unsigned int type = PTHREAD_MUTEX_TYPE (mutex);
+55	  if (__builtin_expect (type & ~PTHREAD_MUTEX_KIND_MASK_NP, 0))
+58	  pid_t id = THREAD_GETMEM (THREAD_SELF, tid);
+60	  if (__builtin_expect (type, PTHREAD_MUTEX_TIMED_NP)
+68	  else if (__builtin_expect (type == PTHREAD_MUTEX_RECURSIVE_NP, 1))
+73	      if (mutex->__data.__owner == id)
+86	      LLL_MUTEX_LOCK (mutex);
+89	      mutex->__data.__count = 1;
+129	  mutex->__data.__owner = id;
+131	  ++mutex->__data.__nusers;
+134	  return 0;
+135	}
+__GI_exit (rv=0) at libc/stdlib/_atexit.c:342
+342		if (not_null_ptr(__exit_cleanup)) {
+not_null_ptr (p=0x0) at libc/stdlib/_atexit.c:322
+322		__asm__ (""
+326		return q != 0;
+__GI_exit (rv=0) at libc/stdlib/_atexit.c:342
+342		if (not_null_ptr(__exit_cleanup)) {
+345		__UCLIBC_MUTEX_UNLOCK(__atexit_lock);
+__pthread_cleanup_pop_restore (buffer=0x7fffffffdc50, execute=1)
+    at libpthread/nptl/cleanup_defer_compat.c:68
+68	  struct pthread *self = THREAD_SELF;
+70	  THREAD_SETMEM (self, cleanup, buffer->__prev);
+73	  if (__builtin_expect (buffer->__canceltype != PTHREAD_CANCEL_DEFERRED, 0)
+96	  if (execute)
+97	    buffer->__routine (buffer->__arg);
+__pthread_mutex_unlock (mutex=0x6202a0 <__atexit_lock>)
+    at libpthread/nptl/pthread_mutex_unlock.c:290
+290	  return __pthread_mutex_unlock_usercnt (mutex, 1);
+__pthread_mutex_unlock_usercnt (mutex=0x6202a0 <__atexit_lock>, decr=1)
+    at libpthread/nptl/pthread_mutex_unlock.c:36
+36	  int type = PTHREAD_MUTEX_TYPE (mutex);
+37	  if (__builtin_expect (type & ~PTHREAD_MUTEX_KIND_MASK_NP, 0))
+40	  if (__builtin_expect (type, PTHREAD_MUTEX_TIMED_NP)
+54	  else if (__builtin_expect (type == PTHREAD_MUTEX_RECURSIVE_NP, 1))
+57	      if (mutex->__data.__owner != THREAD_GETMEM (THREAD_SELF, tid))
+60	      if (--mutex->__data.__count != 0)
+63	      goto normal;
+45	      mutex->__data.__owner = 0;
+46	      if (decr)
+48		--mutex->__data.__nusers;
+51	      lll_unlock (mutex->__data.__lock, PTHREAD_MUTEX_PSHARED (mutex));
+52	      return 0;
+76	}
+__pthread_mutex_unlock (mutex=0x6202a0 <__atexit_lock>)
+    at libpthread/nptl/pthread_mutex_unlock.c:291
+291	}
+__pthread_cleanup_pop_restore (buffer=0x7fffffffdc50, execute=1)
+    at libpthread/nptl/cleanup_defer_compat.c:98
+98	}
+__GI_exit (rv=0) at libc/stdlib/_atexit.c:347
+347		__uClibc_fini();
+__uClibc_fini () at libc/misc/internals/__uClibc_main.c:271
+271	    size_t i = __fini_array_end - __fini_array_start;
+272	    while (i-- > 0)
+275	    if (__app_fini != NULL)
+276		(__app_fini)();
+_fini () at libc/sysdeps/linux/x86_64/crti.S:16
+16		subq	$8, %rsp
+0x0000000000419c4d in _fini ()
+Single stepping until exit from function _fini,
+which has no line number information.
+__uClibc_fini () at libc/misc/internals/__uClibc_main.c:278
+278	    if (__rtld_fini != NULL)
+280	}
+__GI_exit (rv=0) at libc/stdlib/_atexit.c:353
+353		if (not_null_ptr(_stdio_term))
+not_null_ptr (p=0x400411 <_stdio_term>) at libc/stdlib/_atexit.c:322
+322		__asm__ (""
+326		return q != 0;
+__GI_exit (rv=0) at libc/stdlib/_atexit.c:353
+353		if (not_null_ptr(_stdio_term))
+354			_stdio_term();
+_stdio_term () at libc/stdio/_stdio.c:189
+189		STDIO_INIT_MUTEX(_stdio_openlist_add_lock);
+191		STDIO_INIT_MUTEX(_stdio_openlist_del_lock);
+199		for (ptr = _stdio_openlist ; ptr ; ptr = ptr->__nextopen ) {
+200			if (__STDIO_ALWAYS_THREADTRYLOCK_CANCEL_UNSAFE(ptr)) {
+212			ptr->__user_locking = 1; /* Set locking mode to "by caller". */
+213			STDIO_INIT_MUTEX(ptr->__lock); /* Shouldn't be necessary, but... */
+199		for (ptr = _stdio_openlist ; ptr ; ptr = ptr->__nextopen ) {
+200			if (__STDIO_ALWAYS_THREADTRYLOCK_CANCEL_UNSAFE(ptr)) {
+212			ptr->__user_locking = 1; /* Set locking mode to "by caller". */
+213			STDIO_INIT_MUTEX(ptr->__lock); /* Shouldn't be necessary, but... */
+199		for (ptr = _stdio_openlist ; ptr ; ptr = ptr->__nextopen ) {
+200			if (__STDIO_ALWAYS_THREADTRYLOCK_CANCEL_UNSAFE(ptr)) {
+212			ptr->__user_locking = 1; /* Set locking mode to "by caller". */
+213			STDIO_INIT_MUTEX(ptr->__lock); /* Shouldn't be necessary, but... */
+199		for (ptr = _stdio_openlist ; ptr ; ptr = ptr->__nextopen ) {
+226		for (ptr = _stdio_openlist ; ptr ; ptr = ptr->__nextopen ) {
+229			if (__STDIO_STREAM_IS_WRITING(ptr)) {
+235			if (__STDIO_STREAM_IS_CUSTOM(ptr)) {
+226		for (ptr = _stdio_openlist ; ptr ; ptr = ptr->__nextopen ) {
+229			if (__STDIO_STREAM_IS_WRITING(ptr)) {
+230				__STDIO_COMMIT_WRITE_BUFFER(ptr);
+__stdio_wcommit (stream=0x6200d8 <_stdio_streams+88>)
+    at libc/stdio/_wcommit.c:23
+23		if ((bufsize = __STDIO_STREAM_BUFFER_WUSED(stream)) != 0) {
+28		return __STDIO_STREAM_BUFFER_WUSED(stream);
+29	}
+_stdio_term () at libc/stdio/_stdio.c:235
+235			if (__STDIO_STREAM_IS_CUSTOM(ptr)) {
+226		for (ptr = _stdio_openlist ; ptr ; ptr = ptr->__nextopen ) {
+229			if (__STDIO_STREAM_IS_WRITING(ptr)) {
+235			if (__STDIO_STREAM_IS_CUSTOM(ptr)) {
+226		for (ptr = _stdio_openlist ; ptr ; ptr = ptr->__nextopen ) {
+242	}
+__GI_exit (rv=0) at libc/stdlib/_atexit.c:356
+356		_exit(rv);
+__GI__exit (status=0) at libc/sysdeps/linux/common/_exit.c:33
+33			INLINE_SYSCALL(exit, 1, status);
+
